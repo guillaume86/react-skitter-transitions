@@ -16,7 +16,7 @@ or import `dist/react-skitter-transitions.js` in a script tag.
 
 # Usage
 
-Check out `examples/index.html` for a simple usage example.
+Check out [examples/index.html](http://rawgit.com/guillaume86/react-skitter-transitions/master/examples/index.html) for a simple usage example.
 
 # Effects
 
