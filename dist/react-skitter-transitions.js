@@ -1,4 +1,74 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var n;"undefined"!=typeof window?n=window:"undefined"!=typeof global?n=global:"undefined"!=typeof self&&(n=self),n.ReactSkitterTransitions=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var React, SkitterBoxClone, TweenState, assign;
+
+React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+
+TweenState = require('react-tween-state');
+
+assign = require('object-assign');
+
+SkitterBoxClone = React.createClass({
+  displayName: 'SkitterBoxClone',
+  mixins: [TweenState.Mixin],
+  propTypes: {
+    outerStyle: React.PropTypes.object.isRequired,
+    innerStyle: React.PropTypes.object.isRequired,
+    tweenings: React.PropTypes.object
+  },
+  getDefaultProps: function() {
+    return {
+      tweenings: {}
+    };
+  },
+  componentDidMount: function() {
+    var tweenConfig, tweenKey, _ref, _results;
+    _ref = this.props.tweenings;
+    _results = [];
+    for (tweenKey in _ref) {
+      tweenConfig = _ref[tweenKey];
+      if (typeof tweenConfig.easing === 'string') {
+        tweenConfig.easing = TweenState.easingTypes[tweenConfig.easing];
+      }
+      _results.push(this.tweenState(tweenKey, tweenConfig));
+    }
+    return _results;
+  },
+  parseStyle: function(style) {
+    var prop, result, value;
+    result = {};
+    for (prop in style) {
+      value = style[prop];
+      result[prop] = value;
+      if ((value != null) && (value.tweeningValue != null)) {
+        result[prop] = this.getTweeningValue(value.tweeningValue);
+      }
+    }
+    return result;
+  },
+  render: function() {
+    var innerStyle, outerStyle;
+    outerStyle = assign({
+      position: 'absolute',
+      overflow: 'hidden'
+    }, this.parseStyle(this.props.outerStyle));
+    innerStyle = assign({
+      position: 'absolute'
+    }, this.parseStyle(this.props.innerStyle));
+    return React.createElement("div", {
+      "style": outerStyle
+    }, React.createElement("div", {
+      "style": {
+        position: 'relative'
+      }
+    }, React.createElement("div", {
+      "style": innerStyle
+    }, this.props.children)));
+  }
+});
+
+module.exports = SkitterBoxClone;
+
+},{"object-assign":6,"react-tween-state":8}],2:[function(require,module,exports){
 var React, ReactTransitionGroup, SkitterTransitionGroup, SkitterTransitionGroupChild, assign, effects;
 
 React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
@@ -77,81 +147,18 @@ SkitterTransitionGroup = React.createClass({
 
 module.exports = SkitterTransitionGroup;
 
-},{"./SkitterTransitionGroupChild.react":2,"./effects":3,"object-assign":5}],2:[function(require,module,exports){
-var React, SkitterBoxClone, SkitterBoxCloneFactory, SkitterTransitionGroupChild, TweenState, assign, cloneWithProps, effects, onlyChild;
+},{"./SkitterTransitionGroupChild.react":3,"./effects":4,"object-assign":6}],3:[function(require,module,exports){
+var React, SkitterBoxClone, SkitterTransitionGroupChild, assign, cloneWithProps, onlyChild;
 
 React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
-TweenState = require('react-tween-state');
-
 assign = require('object-assign');
-
-effects = require('./effects');
 
 onlyChild = React.Children.only;
 
 cloneWithProps = React.addons.cloneWithProps;
 
-SkitterBoxClone = React.createClass({
-  displayName: 'SkitterBoxClone',
-  mixins: [TweenState.Mixin],
-  propTypes: {
-    outerStyle: React.PropTypes.object.isRequired,
-    innerStyle: React.PropTypes.object.isRequired,
-    tweenings: React.PropTypes.object
-  },
-  getDefaultProps: function() {
-    return {
-      tweenings: {}
-    };
-  },
-  componentDidMount: function() {
-    var tweenConfig, tweenKey, _ref, _results;
-    _ref = this.props.tweenings;
-    _results = [];
-    for (tweenKey in _ref) {
-      tweenConfig = _ref[tweenKey];
-      if (typeof tweenConfig.easing === 'string') {
-        tweenConfig.easing = TweenState.easingTypes[tweenConfig.easing];
-      }
-      _results.push(this.tweenState(tweenKey, tweenConfig));
-    }
-    return _results;
-  },
-  parseStyle: function(style) {
-    var prop, result, value;
-    result = {};
-    for (prop in style) {
-      value = style[prop];
-      result[prop] = value;
-      if ((value != null) && (value.tweeningValue != null)) {
-        result[prop] = this.getTweeningValue(value.tweeningValue);
-      }
-    }
-    return result;
-  },
-  render: function() {
-    var innerStyle, outerStyle;
-    outerStyle = assign({
-      position: 'absolute',
-      overflow: 'hidden'
-    }, this.parseStyle(this.props.outerStyle));
-    innerStyle = assign({
-      position: 'absolute'
-    }, this.parseStyle(this.props.innerStyle));
-    return React.createElement("div", {
-      "style": outerStyle
-    }, React.createElement("div", {
-      "style": {
-        position: 'relative'
-      }
-    }, React.createElement("div", {
-      "style": innerStyle
-    }, this.props.children)));
-  }
-});
-
-SkitterBoxCloneFactory = React.createFactory(SkitterBoxClone);
+SkitterBoxClone = React.createFactory(require('./SkitterBoxClone.react'));
 
 SkitterTransitionGroupChild = React.createClass({
   displayName: 'SkitterTransitionGroupChild',
@@ -200,7 +207,7 @@ SkitterTransitionGroupChild = React.createClass({
     props = assign({}, props, {
       key: this._uniqueKey++
     });
-    return SkitterBoxCloneFactory(props, cloneWithProps(onlyChild(this.props.children)));
+    return SkitterBoxClone(props, cloneWithProps(onlyChild(this.props.children)));
   },
   render: function() {
     if (this.state.isAnimating && this.state.animElements) {
@@ -217,7 +224,7 @@ SkitterTransitionGroupChild = React.createClass({
 
 module.exports = SkitterTransitionGroupChild;
 
-},{"./effects":3,"object-assign":5,"react-tween-state":7}],3:[function(require,module,exports){
+},{"./SkitterBoxClone.react":1,"object-assign":6}],4:[function(require,module,exports){
 module.exports = {
   cube: function(width, height, getBoxClone, duration, callback) {
     var box_clone, box_clones, col, col_t, delay_time, division_h, division_w, easing, height_box, i, init_left, init_top, onEnd, time_animate, total, width_box, _bleft, _btop, _i, _ref, _ref1, _vleft, _vleft_image, _vtop, _vtop_image;
@@ -365,13 +372,13 @@ module.exports = {
   }
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = {
   effects: require('./effects'),
   SkitterTransitionGroup: require('./SkitterTransitionGroup.react')
 };
 
-},{"./SkitterTransitionGroup.react":1,"./effects":3}],5:[function(require,module,exports){
+},{"./SkitterTransitionGroup.react":2,"./effects":4}],6:[function(require,module,exports){
 'use strict';
 
 function ToObject(val) {
@@ -399,7 +406,7 @@ module.exports = Object.assign || function (target, source) {
 	return to;
 };
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 var easingTypes = {
@@ -525,7 +532,7 @@ module.exports = easingTypes;
  *
  */
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 var easingTypes = require('./easingTypes');
@@ -701,5 +708,5 @@ tweenState.Mixin = {
 
 module.exports = tweenState;
 
-},{"./easingTypes":6}]},{},[4])(4)
+},{"./easingTypes":7}]},{},[5])(5)
 });

@@ -2,8 +2,8 @@ React = null
 SkitterTransitionGroup = null
 mocks = null
 
-# Most of the real functionality is covered in other unit tests, this just
-# makes sure we're wired up correctly.
+# This is just a port of ReactCSSTransitionGroup tests
+# to kickstart testing, more revelant tests should be added
 describe('SkitterTransitionGroup', ->
   container = null
 
