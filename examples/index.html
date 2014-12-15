@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>React Skitter Transitions</title>
+    <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <script src="react-skitter-transitions.js"></script>
+  </head>
+  <body>
+    <script type="text/jsx">
+      SkitterTransitionGroup = ReactSkitterTransitions.SkitterTransitionGroup;
+    
+      var MySlideshow = React.createClass({
+        getInitialState: function() {
+          return {
+            index: 0,
+            srcs: [
+            "http://userserve-ak.last.fm/serve/500/27686917/Artificial+Animals+Riding+on+Neverland+PNG.png",
+            "http://userserve-ak.last.fm/serve/500/61124639/Hope++Sorrow.jpg",
+            "http://userserve-ak.last.fm/serve/500/83813121/Tales+of+the+Forgotten+Melodies+Tales+of+the+Forgotten+Melodie.jpg"
+            ]
+          };
+        },
+        handleClick: function() {
+          var nextIndex = (this.state.index + 1) % this.state.srcs.length;
+          this.setState({index: nextIndex});
+        },
+        render: function() {
+          var src = this.state.srcs[this.state.index];
+          var style = { width: 400, height: 400 };
+          return (
+            <div>
+              <span>Click on image</span>
+              <SkitterTransitionGroup transitionName='cubeShow' 
+                width={style.width} height={style.height} 
+                onClick={this.handleClick}>
+                <img key={this.state.index} src={src} style={style}/>
+              </SkitterTransitionGroup>
+            </div>
+          );
+        }
+      });
+      
+      React.render(<MySlideshow/>, document.body);
+    </script>
+  </body>
+</html>

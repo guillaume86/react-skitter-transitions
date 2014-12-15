@@ -1,0 +1,71 @@
+{
+  "name": "react-skitter-transitions",
+  "version": "0.1.0",
+  "description": "advanced javascript transitions for React",
+  "main": "./lib/index.js",
+  "scripts": {
+    "watch": "gulp watch",
+    "build": "gulp",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guillaume86/react-skitter-transitions"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Guillaume Lecomte <guillaume86@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guillaume86/react-skitter-transitions/issues"
+  },
+  "homepage": "https://github.com/guillaume86/react-skitter-transitions",
+  "dependencies": {
+    "object-assign": "^2.0.0",
+    "react-tween-state": "0.0.4"
+  },
+  "peerDependencies": {
+    "react": "^0.12.1"
+  },
+  "devDependencies": {
+    "browserify": "^7.0.1",
+    "browserify-shim": "^3.8.1",
+    "coffee-react": "^2.1.2",
+    "coffee-script": "^1.8.0",
+    "gulp": "^3.8.10",
+    "gulp-cjsx": "^2.0.0",
+    "gulp-coffee": "^2.2.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-run": "^1.6.4",
+    "gulp-util": "^3.0.1",
+    "jest-cli": "^0.2.1",
+    "raf": "^2.0.4",
+    "react": "^0.12.1",
+    "vinyl-transform": "^1.0.0"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "react": "global:React",
+    "react/addons": "global:React"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/jest/preprocessor.js",
+    "testFileExtensions": [
+      "coffee",
+      "cjsx",
+      "js"
+    ],
+    "unmockedModulePathPatterns": [
+      "react",
+      "react/addons",
+      "<rootDir>/node_modules/raf",
+      "<rootDir>/node_modules/react-tween-state",
+      "<rootDir>/node_modules/object-assign"
+    ]
+  }
+}
