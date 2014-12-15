@@ -23,7 +23,7 @@
   "homepage": "https://github.com/guillaume86/react-skitter-transitions",
   "dependencies": {
     "object-assign": "^2.0.0",
-    "react-tween-state": "0.0.4"
+    "react-tween-state": "^0.0.4"
   },
   "peerDependencies": {
     "react": "^0.12.1"
