@@ -1,6 +1,6 @@
 # React Skitter Transitions
 
-React component port of [skitter slideshow transitions](https://github.com/thiagosf/SkitterSlideshow)
+React component port of [skitter slideshow](https://github.com/thiagosf/SkitterSlideshow) transitions.
 
 # Installation
 
@@ -26,4 +26,7 @@ Translation from the Skitter code is straightforward, pull requests are welcome.
 # Dev
 
     npm run build
+    
+or
+
     npm run watch
